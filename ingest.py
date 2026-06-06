@@ -395,9 +395,10 @@ def chunk_document(text, source_name):
     Returns a list of dicts, each with:
     - "text"     : the chunk text (str)
     - "source"   : the source name, e.g. "paul_fodor" (str)
-    - "chunk_id" : a unique identifier, e.g. "paul_fodor_review_0" (str)
-    - "course"   : course code from the review, if present (str)
-    - "date"     : review date, if present (str)
+    - "chunk_id"    : a unique identifier, e.g. "paul_fodor_review_0" (str)
+    - "chunk_index" : 0-based position of this review in the source document (int)
+    - "course"      : course code from the review, if present (str)
+    - "date"        : review date, if present (str)
     """
     slug = source_name.replace(" ", "_")
     chunks = []
@@ -407,18 +408,29 @@ def chunk_document(text, source_name):
         if not block.startswith("REVIEW"):
             continue
 
-        chunk_text = f"{REVIEW_DELIMITER}\n{block}\n{REVIEW_DELIMITER}"
         course_match = re.search(r"^Course:\s*(.+)$", block, re.MULTILINE)
         date_match = re.search(r"^Date:\s*(.+)$", block, re.MULTILINE)
+        course = course_match.group(1).strip() if course_match else None
+
+        header = f"Professor: {source_name}"
+        if course:
+            header += f" | Course: {course}"
+        chunk_text = (
+            f"{REVIEW_DELIMITER}\n"
+            f"{header}\n"
+            f"{block}\n"
+            f"{REVIEW_DELIMITER}"
+        )
 
         chunk_index = len(chunks)
         chunk = {
             "text": chunk_text,
             "source": slug,
             "chunk_id": f"{slug}_review_{chunk_index}",
+            "chunk_index": chunk_index,
         }
-        if course_match:
-            chunk["course"] = course_match.group(1).strip()
+        if course:
+            chunk["course"] = course
         if date_match:
             chunk["date"] = date_match.group(1).strip()
         if len(chunk_text.strip()) > 0:

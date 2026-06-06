@@ -79,9 +79,9 @@ That info is spread across Rate My Professors. You have to open each professor's
      Consider: context length limits, multilingual support, accuracy on domain-specific text,
      latency, and local vs. API-hosted. -->
 
-**Model used:**
+**Model used:** `all-MiniLM-L6-v2` via sentence-transformers (`SentenceTransformer("all-MiniLM-L6-v2")`). Loaded once in `retriever.py` and used to embed all 563 review chunks before storing vectors in ChromaDB. I chose this model because it runs locally with no API key or rate limits, is fast on CPU, and works well for short semantic text like student reviews.
 
-**Production tradeoff reflection:**
+**Production tradeoff reflection:** If cost were not a constraint, I would weigh a larger embedding model (e.g. OpenAI `text-embedding-3-large` or a domain-tuned model) for better accuracy on professor/course name matching and nuanced opinion text. Tradeoffs include API latency vs local inference, context length limits (reviews are short, so this matters less here), and multilingual support (not needed for this English-only corpus). A hosted model might improve recall on specific facts like "records lectures" but adds dependency on external uptime and billing.
 
 ---
 
@@ -91,36 +91,42 @@ That info is spread across Rate My Professors. You have to open each professor's
      For at least 2 of the 3, explain why the returned chunks are relevant to the query.
      Results must be text, not screenshots. -->
 
-**Query 1:**
+**Query 1:** Does Paul Fodor record his lectures for CSE 114?
 
 Top returned chunks:
--
--
--
+- [1] `paul_fodor` | CSE114 | distance: 0.4110 — CSE114 review praising Fodor as a helpful, brilliant instructor (Apr 2015)
+- [2] `paul_fodor` | CSE114 | distance: 0.4128 — CSE114 review: lectures well organized and super clear (Nov 2013)
+- [3] `paul_fodor` | CSE114 | distance: 0.4195 — CSE114 review: respectable, helpful professor (Jan 2015)
+- [4] `paul_fodor` | CSE307 | distance: 0.4196 — Tags: TOUGH GRADER, RESPECTED; discusses lecture quality
+- [5] `paul_fodor` | CSE114 | distance: 0.4253 — CSE114 review: helpful, passionate, available outside class
 
-Relevance explanation:
+Relevance explanation: All top results are Paul Fodor reviews, and four of five are specifically for CSE114. They discuss lecture quality and teaching style, which is on-topic for a question about how Fodor runs CSE114 lectures. The exact "he records his lectures" review ranks lower (~24th) because many CSE114 reviews praise lectures generally without mentioning recording — a known limitation when one professor dominates the corpus.
 
 ---
 
-**Query 2:**
+**Query 2:** What Rate My Professor tags do students assign to Christopher Kane for CSE 307?
 
 Top returned chunks:
--
--
--
+- [1] `christopher_kane` | CSE215 | distance: 0.3740 — Tags: EXTRA CREDIT, AMAZING LECTURES, LOTS OF HOMEWORK
+- [2] `christopher_kane` | CSE310 | distance: 0.3876 — Tags: GIVES GOOD FEEDBACK, RESPECTED, ACCESSIBLE OUTSIDE CLASS
+- [3] `christopher_kane` | CSE215 | distance: 0.3939 — Tags: EXTRA CREDIT, CLEAR GRADING CRITERIA, LECTURE HEAVY
+- [4] `christopher_kane` | CSE215 | distance: 0.4161 — Tags: EXTRA CREDIT, AMAZING LECTURES, ACCESSIBLE OUTSIDE CLASS
+- [5] `christopher_kane` | CSE215 | distance: 0.4279 — Tags: GIVES GOOD FEEDBACK, RESPECTED, HILARIOUS
 
-Relevance explanation:
+Relevance explanation: Every result is a Christopher Kane review that includes RMP tags in the chunk text, directly answering the "what tags" part of the query. The top results skew toward CSE215 rather than CSE307 because Kane has more CSE215 reviews and the embedding model weights tag vocabulary similarity. The Mar 2026 CSE307 review with TOUGH GRADER / LECTURE HEAVY / ACCESSIBLE OUTSIDE CLASS is in the corpus but ranks outside the top 5.
 
 ---
 
-**Query 3:**
+**Query 3:** What do students say about I.V. Ramakrishnan's CSE 596 class?
 
 Top returned chunks:
--
--
--
+- [1] `iv_ramakrishnan` | CSE537 | distance: 0.3216 — tough grader, hard to understand accent, lectures were nightmares
+- [2] `iv_ramakrishnan` | CSE596 | distance: 0.3221 — Quality 1.0; not helpful, unprepared for lectures, bad attitude
+- [3] `iv_ramakrishnan` | RESCH000 | distance: 0.3238 — Quality 1.0; hard to talk to, possessive, secretive
+- [4] `iv_ramakrishnan` | CSE537 | distance: 0.3313 — unorganized lectures, poor accent, do not recommend
+- [5] `iv_ramakrishnan` | CSE537 | distance: 0.3607 — accent hard to understand, poorly organized slides
 
-Relevance explanation:
+Relevance explanation: All five results are negative I.V. Ramakrishnan reviews — exactly the kind of student sentiment the query asks about. Result #2 is a direct CSE596 review describing an unpleasant experience (Quality 1.0, unprepared lectures). Adding the professor name to each chunk header during ingestion fixed an earlier failure where Paul Fodor reviews drowned out Ramakrishnan because the review text never contained the professor's name.
 
 ---
 
