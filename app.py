@@ -40,12 +40,12 @@ def run_ingestion():
 
 
 def handle_query(question):
-    """Run retrieval + generation; return answer and sources separately."""
+    """Run retrieval + generation; return answer and review citations separately."""
     if not question.strip():
         return "", ""
     result = ask(question)
-    sources = "\n".join(f"- {s}" for s in result["sources"])
-    return result["answer"], sources
+    citations = "\n\n".join(result["citations"]) if result.get("citations") else ""
+    return result["answer"], citations
 
 
 def chat(message, history):
@@ -80,7 +80,7 @@ with gr.Blocks(
 
             with gr.Row():
                 answer_box = gr.Textbox(label="Answer", lines=10, interactive=False)
-                sources_box = gr.Textbox(label="Retrieved from", lines=10, interactive=False)
+                sources_box = gr.Textbox(label="Retrieved from", lines=24, interactive=False)
 
             ask_btn.click(handle_query, inputs=question_box, outputs=[answer_box, sources_box])
             question_box.submit(handle_query, inputs=question_box, outputs=[answer_box, sources_box])

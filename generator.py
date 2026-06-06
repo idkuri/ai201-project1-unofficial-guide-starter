@@ -38,6 +38,14 @@ def _format_source(chunk: dict) -> str:
     return source
 
 
+def _format_citation(chunk: dict, index: int) -> str:
+    """Format a retrieved chunk as a numbered review citation."""
+    header = f"Review {index} — {_format_source(chunk)}"
+    if chunk.get("date"):
+        header += f" — {chunk['date']}"
+    return f"{header}\n{chunk['text']}"
+
+
 def _build_context(chunks: list[dict]) -> str:
     """Format retrieved chunks into a numbered context block for the prompt."""
     parts = []
@@ -48,8 +56,12 @@ def _build_context(chunks: list[dict]) -> str:
 
 
 def _filter_chunks(chunks: list[dict]) -> list[dict]:
-    """Keep chunks with strong semantic match; fall back to top result if all are weak."""
-    strong = [c for c in chunks if c["distance"] <= MAX_DISTANCE]
+    """Keep chunks close to the best match; allow farther hits when several are relevant."""
+    if not chunks:
+        return []
+    best = min(chunk["distance"] for chunk in chunks)
+    threshold = max(MAX_DISTANCE, best + 0.35)
+    strong = [chunk for chunk in chunks if chunk["distance"] <= threshold]
     return strong if strong else chunks[:1]
 
 
@@ -58,23 +70,23 @@ def generate_response(query: str, retrieved_chunks: list[dict]) -> dict:
     Generate a grounded answer from retrieved document chunks.
 
     Returns a dict with:
-    - "answer"  : the LLM response (grounded in retrieved context only)
-    - "sources" : deduplicated source labels, appended programmatically by the caller
+    - "answer"     : the LLM response (grounded in retrieved context only)
+    - "citations"  : numbered review excerpts passed to the LLM, for display
     """
     if not retrieved_chunks:
-        return {"answer": NO_CHUNKS_MESSAGE, "sources": []}
+        return {"answer": NO_CHUNKS_MESSAGE, "citations": []}
 
     chunks = _filter_chunks(retrieved_chunks)
     if chunks[0]["distance"] > MAX_DISTANCE and len(chunks) == 1:
-        return {"answer": WEAK_MATCH_MESSAGE, "sources": []}
+        return {"answer": WEAK_MATCH_MESSAGE, "citations": []}
 
-    sources = list(dict.fromkeys(_format_source(c) for c in chunks))
+    citations = [_format_citation(chunk, i) for i, chunk in enumerate(chunks, start=1)]
     context = _build_context(chunks)
 
     if not GROQ_API_KEY:
         return {
             "answer": "GROQ_API_KEY is not set. Copy .env.example to .env and add your key.",
-            "sources": sources,
+            "citations": citations,
         }
 
     response = _client.chat.completions.create(
@@ -94,7 +106,7 @@ def generate_response(query: str, retrieved_chunks: list[dict]) -> dict:
     )
 
     answer = response.choices[0].message.content.strip()
-    return {"answer": answer, "sources": sources}
+    return {"answer": answer, "citations": citations}
 
 
 def ask(query: str) -> dict:
@@ -108,10 +120,10 @@ def ask(query: str) -> dict:
 def format_response(result: dict) -> str:
     """Combine answer with programmatically guaranteed source attribution."""
     answer = result["answer"]
-    if not result["sources"]:
+    if not result.get("citations"):
         return answer
-    source_lines = "\n".join(f"- {s}" for s in result["sources"])
-    return f"{answer}\n\n---\n**Retrieved from:**\n{source_lines}"
+    citation_block = "\n\n".join(result["citations"])
+    return f"{answer}\n\n---\n**Retrieved from:**\n\n{citation_block}"
 
 
 if __name__ == "__main__":

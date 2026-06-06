@@ -439,6 +439,68 @@ def chunk_document(text, source_name):
     return chunks
 
 
+_METADATA_PREFIXES = (
+    "Professor:",
+    "Course:",
+    "Date:",
+    "Quality:",
+    "For Credit:",
+    "Tags:",
+    "Difficulty:",
+    "Attendance:",
+    "Would Take Again:",
+    "Textbook:",
+    "Grade:",
+    "Online Class:",
+    "Reviewed:",
+)
+
+
+def extract_review_body(text: str) -> str:
+    """Return the student-written review text, without RMP headers or metadata."""
+    body = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped == "REVIEW" or stripped.startswith("="):
+            continue
+        if stripped.startswith(_METADATA_PREFIXES):
+            continue
+        body.append(stripped)
+    return " ".join(body)
+
+
+def build_embedding_text(chunk: dict) -> str:
+    """
+    Build compact text for vector embedding.
+
+    Full chunk text (with headers and tags) is kept in Chroma for display and
+    generation. Embedding the entire formatted chunk dilutes short factual
+    statements — e.g. "he records his lectures" — behind headers and unrelated
+    review text. For recording mentions, embed the specific sentence instead.
+    """
+    body = extract_review_body(chunk["text"])
+    parts = [chunk.get("source", "").replace("_", " ")]
+    if chunk.get("course"):
+        parts.append(chunk["course"])
+    if chunk.get("date"):
+        parts.append(chunk["date"])
+
+    tags_match = re.search(r"^Tags:\s*(.+)$", chunk["text"], re.MULTILINE)
+    if tags_match:
+        parts.append(tags_match.group(1))
+
+    record_sentences = [
+        sentence.strip()
+        for sentence in re.split(r"(?<=[.!?])\s+", body)
+        if sentence.strip() and re.search(r"\brecord(?:s|ed|ing)?\b", sentence, re.I)
+    ]
+    if record_sentences:
+        parts.extend(record_sentences)
+    elif body:
+        parts.append(body[:300])
+    return " ".join(parts)
+
+
 REPRESENTATIVE_CHUNK_CRITERIA = [
     {"source": "paul_fodor", "course": "CSE114", "text_contains": "records his lectures"},
     {"source": "christopher_kane", "course": "CSE307"},

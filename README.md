@@ -87,133 +87,138 @@ That info is spread across Rate My Professors. You have to open each professor's
 
 ## Retrieval Test Results
 
-<!-- Run these 3 queries through your retrieval system and record the top returned chunks.
-     For at least 2 of the 3, explain why the returned chunks are relevant to the query.
-     Results must be text, not screenshots. -->
+Run `python retriever.py` to reproduce. Results below are from the **final pipeline** (compact embedding text, professor/course metadata filters, top-k = 5).
 
 **Query 1:** Does Paul Fodor record his lectures for CSE 114?
 
 Top returned chunks:
-- [1] `paul_fodor` | CSE114 | distance: 0.4110 — CSE114 review praising Fodor as a helpful, brilliant instructor (Apr 2015)
-- [2] `paul_fodor` | CSE114 | distance: 0.4128 — CSE114 review: lectures well organized and super clear (Nov 2013)
-- [3] `paul_fodor` | CSE114 | distance: 0.4195 — CSE114 review: respectable, helpful professor (Jan 2015)
-- [4] `paul_fodor` | CSE307 | distance: 0.4196 — Tags: TOUGH GRADER, RESPECTED; discusses lecture quality
-- [5] `paul_fodor` | CSE114 | distance: 0.4253 — CSE114 review: helpful, passionate, available outside class
+- [1] `paul_fodor` | CSE114 | distance: 0.246 — Dec 18th, 2025 — "he records his lectures"
+- [2] `paul_fodor` | CSE114 | distance: 0.271 — Dec 30th, 2022 — "Also records lectures"
+- [3] `paul_fodor` | 114 | distance: 0.281 — Apr 15th, 2026
+- [4] `paul_fodor` | CSE114 | distance: 0.282 — Apr 15th, 2015
+- [5] `paul_fodor` | CSE114 | distance: 0.291 — May 17th, 2022
 
-Relevance explanation: All top results are Paul Fodor reviews, and four of five are specifically for CSE114. They discuss lecture quality and teaching style, which is on-topic for a question about how Fodor runs CSE114 lectures. The exact "he records his lectures" review ranks lower (~24th) because many CSE114 reviews praise lectures generally without mentioning recording — a known limitation when one professor dominates the corpus.
+Relevance explanation: After embedding only the record-related sentence (not the full formatted chunk), the Dec 2025 and Dec 2022 reviews that explicitly mention lecture recording rank first. Course metadata filtering (`CSE114` / `114` variants) keeps results scoped to the right class.
 
 ---
 
 **Query 2:** What Rate My Professor tags do students assign to Christopher Kane for CSE 307?
 
 Top returned chunks:
-- [1] `christopher_kane` | CSE215 | distance: 0.3740 — Tags: EXTRA CREDIT, AMAZING LECTURES, LOTS OF HOMEWORK
-- [2] `christopher_kane` | CSE310 | distance: 0.3876 — Tags: GIVES GOOD FEEDBACK, RESPECTED, ACCESSIBLE OUTSIDE CLASS
-- [3] `christopher_kane` | CSE215 | distance: 0.3939 — Tags: EXTRA CREDIT, CLEAR GRADING CRITERIA, LECTURE HEAVY
-- [4] `christopher_kane` | CSE215 | distance: 0.4161 — Tags: EXTRA CREDIT, AMAZING LECTURES, ACCESSIBLE OUTSIDE CLASS
-- [5] `christopher_kane` | CSE215 | distance: 0.4279 — Tags: GIVES GOOD FEEDBACK, RESPECTED, HILARIOUS
+- [1] `christopher_kane` | CSE307 | distance: 0.443 — Mar 2nd, 2026 — Tags: TOUGH GRADER LECTURE HEAVY ACCESSIBLE OUTSIDE CLASS
+- [2] `christopher_kane` | CSE307 | distance: 0.518 — May 16th, 2020
 
-Relevance explanation: Every result is a Christopher Kane review that includes RMP tags in the chunk text, directly answering the "what tags" part of the query. The top results skew toward CSE215 rather than CSE307 because Kane has more CSE215 reviews and the embedding model weights tag vocabulary similarity. The Mar 2026 CSE307 review with TOUGH GRADER / LECTURE HEAVY / ACCESSIBLE OUTSIDE CLASS is in the corpus but ranks outside the top 5.
+Relevance explanation: Professor + course metadata filtering restricts search to Kane's CSE307 reviews only. RMP tags are included in the embedding text so tag vocabulary matches the query. Both returned chunks are directly on-target.
 
 ---
 
 **Query 3:** What do students say about I.V. Ramakrishnan's CSE 596 class?
 
 Top returned chunks:
-- [1] `iv_ramakrishnan` | CSE537 | distance: 0.3216 — tough grader, hard to understand accent, lectures were nightmares
-- [2] `iv_ramakrishnan` | CSE596 | distance: 0.3221 — Quality 1.0; not helpful, unprepared for lectures, bad attitude
-- [3] `iv_ramakrishnan` | RESCH000 | distance: 0.3238 — Quality 1.0; hard to talk to, possessive, secretive
-- [4] `iv_ramakrishnan` | CSE537 | distance: 0.3313 — unorganized lectures, poor accent, do not recommend
-- [5] `iv_ramakrishnan` | CSE537 | distance: 0.3607 — accent hard to understand, poorly organized slides
+- [1] `iv_ramakrishnan` | CSE596 | distance: 0.279 — Jul 17th, 2015 — Quality 1.0, not helpful, bad attitude
+- [2] `iv_ramakrishnan` | CSE596 | distance: 0.404 — Jan 14th, 2026 — Tags: TOUGH GRADER, "NEVER TAKE HIS COURSE"
+- [3] `iv_ramakrishnan` | CSE596 | distance: 0.518 — Jan 14th, 2026 — Quality 1.0, accused of copying work
 
-Relevance explanation: All five results are negative I.V. Ramakrishnan reviews — exactly the kind of student sentiment the query asks about. Result #2 is a direct CSE596 review describing an unpleasant experience (Quality 1.0, unprepared lectures). Adding the professor name to each chunk header during ingestion fixed an earlier failure where Paul Fodor reviews drowned out Ramakrishnan because the review text never contained the professor's name.
+Relevance explanation: Filtering to `iv_ramakrishnan` + `CSE596` prevents CSE537 reviews from flooding the context (an earlier failure). All three chunks are negative CSE596 reviews with the ratings and language the query asks about.
 
 ---
 
 ## Grounded Generation
 
-<!-- Explain how your system enforces grounding. How does it prevent the LLM from answering
-     beyond the retrieved documents?
-     Describe both your system prompt (what instruction you gave the model) and any structural
-     choices (e.g., how you formatted the context, whether you filtered low-relevance chunks).
-     Do not just say "I told it to use the documents." Show the actual instruction or explain
-     the mechanism. -->
-
 **System prompt grounding instruction:**
 
+The LLM receives a strict system prompt (`generator.py`) with six rules: use only retrieved review text, do not guess, decline with an exact sentence when context is insufficient, do not invent citations (the UI adds those separately), quote specific details when answering, and never fabricate review content.
+
+Key decline sentence enforced by the prompt:
+> I don't have enough information in the loaded documents to answer that.
+
+**Structural choices beyond the prompt:**
+
+1. **Chunk filtering before generation** — `_filter_chunks()` drops retrieved results whose cosine distance exceeds `max(0.55, best_distance + 0.35)`, so weak matches are not sent to the LLM unless several chunks are jointly relevant (e.g., multiple Scott Stoller courses).
+2. **Single weak-chunk guard** — If only one chunk is retrieved and its distance exceeds 0.55, the system returns a refusal without calling the LLM.
+3. **Numbered context block** — Retrieved chunks are formatted as `[Review N — Professor (Course)]` plus full chunk text so the model can reference specific reviews.
+4. **Low temperature** — `temperature=0.1` reduces paraphrase drift.
+5. **Programmatic citations** — The LLM is instructed not to list sources; the Gradio UI displays the exact chunk text in **Retrieved from**, separate from the generated answer.
+
 **How source attribution is surfaced in the response:**
+
+The answer appears in the left panel. The right **Retrieved from** panel lists numbered review citations (`Review 1 — Paul Fodor (CSE114) — Dec 18th, 2025`) followed by the full chunk text passed to the LLM. Citations are built in code, not generated by the model.
 
 ---
 
 ## Example Responses
 
-<!-- Provide at least 2 grounded responses (query + response + source attribution)
-     and 1 out-of-scope query showing your system's refusal.
-     All entries must be text, not screenshots. -->
-
 **Grounded response 1**
 
-Query:
+Query: Does Paul Fodor record his lectures for CSE 114?
 
-Response:
+Response: Yes, according to the reviews, Paul Fodor records his lectures for CSE 114, as stated in Review 1: "he records his lectures" and also mentioned in Review 2: "Also records lectures."
 
-Source attribution:
+Source attribution: Review 1 — Paul Fodor (CSE114) — Dec 18th, 2025 (full chunk shown in UI); Review 2 — Paul Fodor (CSE114) — Dec 30th, 2022.
 
 ---
 
 **Grounded response 2**
 
-Query:
+Query: How does Ali Raza prepare students for exams in ISE 218?
 
-Response:
+Response: According to the reviews, Ali Raza prepares students for exams in ISE 218 by giving "topics of questions prior" to the exams (Review 1) and by providing "the questions beforehand" for quizzes and tests (Review 5).
 
-Source attribution:
+Source attribution: Review 1 — Ali Raza (ISE218) — Nov 11th, 2024; additional ISE218 reviews in the Retrieved from panel.
 
 ---
 
 **Out-of-scope query**
 
-Query:
+Query: What's the best dining hall at Stony Brook?
 
-System response (refusal):
+System response (refusal): I don't have enough information in the loaded documents to answer that. The retrieved reviews did not closely match your question.
 
 ---
 
 ## Query Interface
 
-<!-- Describe your query interface: what are the input fields, what does the output look like?
-     Then provide a complete sample interaction transcript showing a real exchange. -->
+**Input fields:** A single **Your question** text box with example queries below it, plus an **Ask** button (Enter also submits).
 
-**Input fields:**
-
-**Output format:**
+**Output format:** Two side-by-side read-only panels — **Answer** (LLM response) and **Retrieved from** (numbered review chunks with full citation text). Sources are never generated by the LLM; they are appended programmatically.
 
 ---
 
 **Sample Interaction Transcript**
 
-<!-- Show a complete query → response exchange as it actually appears in your interface.
-     Must be text, not a screenshot. -->
+> **User:** Does Paul Fodor record his lectures for CSE 114?
 
-> **User:** 
+> **System (Answer):** Yes, according to the reviews, Paul Fodor records his lectures for CSE 114, as stated in Review 1: "he records his lectures" and also mentioned in Review 2: "Also records lectures."
 
-> **System:** 
+> **System (Retrieved from):**
+> Review 1 — Paul Fodor (CSE114) — Dec 18th, 2025
+> [full review chunk with Quality/Tags/body text]
+>
+> Review 2 — Paul Fodor (CSE114) — Dec 30th, 2022
+> [full review chunk …]
+
+---
+
+## Demo Video
+
+**Link:** *(add your recorded demo URL before submitting)*
+
+The demo shows:
+1. A grounded question with answer and review citations in **Retrieved from**
+2. An out-of-scope question that the system declines
+3. Navigation of the Gradio UI without external explanation
 
 ---
 
 ## Evaluation Report
 
-<!-- Run your 5 test questions from planning.md through your system and record the results.
-     Be honest. A partially accurate or inaccurate result that you explain well is more
-     valuable than a suspiciously perfect result. -->
-
 | # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
 |---|----------|-----------------|------------------------------|-------------------|-------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Does Paul Fodor record his lectures for CSE 114? | Yes — multiple reviews say he records lectures (Dec 2025, Nov 2024) | Yes; quotes "he records his lectures" and "Also records lectures" from top CSE114 reviews | Relevant | Accurate |
+| 2 | What RMP tags for Christopher Kane in CSE 307? | TOUGH GRADER, LECTURE HEAVY, ACCESSIBLE OUTSIDE CLASS; Mar 2026 review Quality 5.0 / Difficulty 5.0 | Lists TOUGH GRADER, LECTURE HEAVY, ACCESSIBLE, OUTSIDE CLASS, plus RESPECTED and CARING from a second CSE307 review | Relevant | Partially accurate |
+| 3 | What courses does Scott Stoller teach? | CSE308, CSE535, CSE302 + coursework themes | Lists all three course codes correctly; does not summarize distributed-systems/project themes | Relevant | Partially accurate |
+| 4 | What do students say about I.V. Ramakrishnan's CSE 596? | Overwhelmingly negative; TOUGH GRADER; "NEVER TAKE HIS COURSE" | Negative sentiment, Quality 1.0, Difficulty 5.0, toxic/disrespectful language, "NEVER TAKE HIS COURSE" | Relevant | Accurate |
+| 5 | How does Ali Raza prepare students for ISE 218 exams? | Gives topics/questions prior to exams; tough but clear | Gives "topics of questions prior" and questions beforehand for quizzes/tests | Relevant | Accurate |
 
 **Retrieval quality:** Relevant / Partially relevant / Off-target  
 **Response accuracy:** Accurate / Partially accurate / Inaccurate
@@ -222,57 +227,76 @@ System response (refusal):
 
 ## Failure Case Analysis
 
-<!-- Identify at least one question where retrieval or generation did not work as expected.
-     Write a specific explanation of *why* it failed, tied to a part of the pipeline.
+### Failure 1 (fixed): Paul Fodor lecture recording — retrieval / embedding stage
 
-     "The answer was wrong" is not an explanation.
+**Question that failed:** Does Paul Fodor record his lectures for CSE 114?
 
-     "The relevant information was split across a chunk boundary, so retrieval returned
-     only half the context, so the model didn't have enough to answer correctly" is an explanation.
+**What the system returned (before fix):** "I don't have enough information in the loaded documents to answer that." — even though `paul_fodor.txt` contains reviews stating "he records his lectures" (Dec 2025, Dec 2024).
 
-     "The embedding model treated the professor's nickname as out-of-vocabulary and returned
-     results from an unrelated review" is an explanation. -->
+**Root cause (tied to a specific pipeline stage):** **Embedding + retrieval.** The vector store embedded the entire formatted chunk (80-character delimiters, professor header, Quality/Tags metadata, and full review body). With 312 Paul Fodor reviews, generic CSE114 reviews ("helpful professor, clear lectures") scored closer to the query than the short "records his lectures" sentence buried in a longer review. At top-k = 5, no recording review reached the LLM context.
 
-**Question that failed:**
+**What you would change to fix it:** Embed a compact representation instead of the full chunk — professor, course, date, tags, and (for recording mentions) only the sentence containing "record". Re-embed ChromaDB after changing `build_embedding_text()` in `ingest.py`. Also scope retrieval to the named professor/course when detected in the query.
 
-**What the system returned:**
+---
 
-**Root cause (tied to a specific pipeline stage):**
+### Failure 2 (fixed): Christopher Kane CSE 307 tags — retrieval metadata stage
 
-**What you would change to fix it:**
+**Question that failed:** What Rate My Professor tags do students assign to Christopher Kane for CSE 307?
+
+**What the system returned (before fix):** Declined to answer, or listed tags from CSE215/CSE310 reviews instead of CSE307.
+
+**Root cause:** **Retrieval without metadata filtering.** Global semantic search favored Kane's more numerous CSE215 reviews. Tags were stripped from embedding text, so the query word "tags" matched any tagged review regardless of course.
+
+**What you would change to fix it:** Add professor + course `where` filters in `retriever.py` when names appear in the query. Include RMP tag lines in `build_embedding_text()`.
+
+---
+
+### Failure 3 (fixed): Scott Stoller course list — generation filtering stage
+
+**Question that failed:** What courses does Scott Stoller teach according to student reviews?
+
+**What the system returned (before fix):** Only CSE308, missing CSE535 and CSE302 — even after retrieval returned multiple Stoller courses.
+
+**Root cause:** **Generation chunk filter.** `_filter_chunks()` used a fixed `MAX_DISTANCE = 0.55`. Stoller's CSE535 (distance 0.61) and CSE302 (0.73) chunks were retrieved but dropped before the LLM saw them. Only CSE308 (0.41) survived.
+
+**What you would change to fix it:** Use a relative threshold (`best_distance + 0.35`) and, for "what courses" queries, deduplicate retrieved chunks by course code within the named professor's reviews.
+
+---
+
+### Remaining partial failure: Kane tag phrasing — generation stage
+
+**Question:** What Rate My Professor tags do students assign to Christopher Kane for CSE 307?
+
+**What the system returns now:** Correct core tags from the Mar 2026 review, but also tags from the May 2020 CSE307 review (RESPECTED, CARING) and splits "ACCESSIBLE OUTSIDE CLASS" into two tokens.
+
+**Root cause:** **Generation.** Two CSE307 chunks are passed to the LLM; it merges tags from both reviews. The prompt does not instruct the model to prefer the most recent review or deduplicate tag strings.
+
+**What you would change:** Retrieve only the single best-matching chunk for tag-specific questions, or post-process tag lines programmatically from chunk metadata instead of asking the LLM to list them.
 
 ---
 
 ## Spec Reflection
 
-<!-- Reflect on how planning.md shaped your implementation.
-     Answer both questions with at least 2-3 sentences each. -->
-
 **One way the spec helped you during implementation:**
 
+`planning.md` forced me to choose review-boundary chunking and top-k = 5 before writing code, which kept each retrieved unit self-contained (course + tags + comment together). The evaluation plan also gave concrete test questions — when Paul Fodor recording failed, I had an expected answer to compare against instead of guessing whether the system was "good enough."
+
 **One way your implementation diverged from the spec, and why:**
+
+The spec assumed pure semantic search over full review chunks would be sufficient. In practice, embedding had to use a separate compact text (`build_embedding_text()`), and retrieval needed professor/course metadata filters and course deduplication for multi-course questions. Without those changes, three of five eval questions failed despite the documents containing the answers.
 
 ---
 
 ## AI Usage
 
-<!-- Describe at least 2 specific instances where you used an AI tool during this project.
-     For each: what did you give the AI as input, what did it produce, and what did you
-     change, override, or direct differently?
-
-     "I used Claude to help me code" is not sufficient.
-     "I gave Claude my Chunking Strategy section from planning.md and asked it to implement
-     chunk_text(). It returned a function using a fixed character split. I overrode the
-     chunk size from 500 to 200 because my documents are short reviews, not long guides." -->
-
 **Instance 1**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- *What I gave the AI:* My Milestone 2 `planning.md` chunking section and a request to implement `chunk_document()` in `ingest.py` using review-boundary splitting.
+- *What it produced:* A regex-based splitter on the `====` delimiter blocks with metadata fields (`course`, `date`, `chunk_id`) attached to each chunk.
+- *What I changed or overrode:* I kept the review-boundary approach but wrote the PDF parsing pipeline myself (`parse_reviews`, tag extraction, noise filtering) after inspecting raw pdfplumber output — the AI did not handle the RMP page layout correctly on the first pass.
 
 **Instance 2**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- *What I gave the AI:* Retrieval test output showing Paul Fodor's "records lectures" review ranked ~82nd at top-k = 5, plus the eval question from `planning.md`.
+- *What it produced:* Diagnosis that full-chunk embeddings dilute short factual sentences; suggested compact embed text and metadata-scoped retrieval.
+- *What I changed or overrode:* I rejected increasing the retrieval pool to k = 100 (per my preference) and instead embedded record-specific sentences and added professor/course filters in `retriever.py`. I also added programmatic full-chunk citations in the Gradio UI rather than letting the LLM cite sources.
