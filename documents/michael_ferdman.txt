@@ -1,0 +1,347 @@
+# Professor: Michael Ferdman
+# Source: Rate My Professors — Stony Brook University (SUNY)
+# Department: Computer Science
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Apr 22nd, 2026
+Quality: 5.0 | Difficulty: 3.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: Not sure yet | Textbook: Yes
+
+He is a good professor who tries to explain everything clearly. If you don't understand something, you can go to Piazza and ask questions
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE502
+Date: May 15th, 2025
+Quality: 5.0 | Difficulty: 3.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Textbook: N/A
+Tags: GROUP PROJECTS AMAZING LECTURES HILARIOUS
+
+He is a very considerate person. Fantastic lectures for such a hard topic.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: Nov 25th, 2022
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Would Take Again: Yes
+Tags: AMAZING LECTURES CLEAR GRADING CRITERIA HILARIOUS
+
+Professor Ferdman is probably one of the best cs professors at the school. If not the best he is among the top 3. What you learn from this class, you will not learn anywhere else in the cs program. 320 makes you a better programmer, 356 makes you a better developer and systems designer.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: Dec 30th, 2019
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A | Textbook: No
+Tags: LOTS OF HOMEWORK HILARIOUS AMAZING LECTURES
+
+The greatest class and professor I've ever taken. If you want to be a software developer then this is the most relevant course you can take at SBU.I got a software development internship for the summer because of the knowledge i gained from this course,i can't overstate the usefulness of it. Sad that it won't be offered in the next few semesters :(
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: Dec 19th, 2019
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: B | Textbook: No
+
+No one chats during his lectures because they are so interesting and every knowledge point he talks will become a hw. Prepare to have 3 dues in 7 days. Try no to take other CSE courses that have final projects at the same time. After all, he is the best professor ever.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: May 21st, 2019
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: C | Textbook: No
+Tags: GIVES GOOD FEEDBACK LOTS OF HOMEWORK AMAZING LECTURES
+
+The material laid out in the class is so relevant to the industry and very up-to-date with what's hot. The course focuses mainly on creating a project based on the technologies discussed and taught in class to the point where it's sad that more classes do not resemble it. I may have gotten a poor grade, but I will never regret having had taken it.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: May 10th, 2019
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Would Take Again: Yes Textbook: No
+Tags: RESPECTED LOTS OF HOMEWORK AMAZING LECTURES
+
+Mike Ferdman is hands down one of the best professors I have had the pleasure of taking a class with here. Cloud computing is probably one of, if not the most, important course I've taken here, despite it being an elective. Although you don't have to technically attend lecture to do well, it would really help, especially if you came in knowing 0.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: Feb 4th, 2019
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: B+ | Textbook: No
+Tags: LOTS OF HOMEWORK ACCESSIBLE OUTSIDE CLASS GROUP PROJECTS
+
+No hand holding here! You will learn a lot. Cloud computing was one of the toughest and most rewarding classes. It's a hot topic in the industry and is a very interesting and fun one too. You will learn cloud architectural design concepts and get to build a system of your own. You will use technologies industries use so this is a very sought class
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: Jun 9th, 2018
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A- | Textbook: No
+Tags: SKIP CLASS? YOU WON'T PASS. GROUP PROJECTS
+
+There really ought to be more classes like this one at SBU. The amount of relevance of this class with the tech industry is unbelievable, and I enjoyed every byte of difficulty this class had to offer. Great class if you want a focus on projects rather than tests. Also the professor is a good lecturer, just be ready to pay attention.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Feb 8th, 2018
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A | Textbook: No
+Tags: ACCESSIBLE OUTSIDE CLASS AMAZING LECTURES GROUP PROJECTS
+
+A rockstar professor. His lectures are charming and educative at the same time. He is always active on piazza and is very knowledgeable.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Jan 22nd, 2018
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A- | Textbook: No
+Tags: GET READY TO READ LOTS OF HOMEWORK GROUP PROJECTS
+
+He is amazing Professor. His 506 is one of the toughest in SBU, but you will feel the worth after completing the course.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Jan 1st, 2018
+Quality: 5.0 | Difficulty: 4.0
+Attendance: Not Mandatory Would Take Again: Yes Textbook: No
+Tags: RESPECTED PARTICIPATION MATTERS AMAZING LECTURES
+
+Operating Systems under Prof. Mike Ferdman is the best course offered at SBU. I audited the course and learned a lot. Best way to learn OS is by building it and Prof. Mike's focus is on that only. I regret not being enrolled in the course. Hopefully, he offers the course in Fall '18 and I will surely enroll.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE502
+Date: May 21st, 2017
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Would Take Again: Yes Grade: A Textbook: No
+Tags: RESPECTED LOTS OF HOMEWORK AMAZING LECTURES
+
+If you are interested in Systems, Computer Architecture under Mike is a must take course. Professor is accessible; replies to mails within minutes. Easily one of the best and hardest course project (we built a RISCV processor). Don't take this with other hard courses.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: May 19th, 2017
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A- | Textbook: No
+Tags: RESPECTED LOTS OF HOMEWORK AMAZING LECTURES
+
+Easily the most relevant cs course offered at Stony Brook. Everything you could ever want to know about scalable cloud-based systems, Prof. Ferdman has right at his fingertips. Attendance was not mandatory, but the knowledge he offers in his lectures made me want to come and listen. Course projects and hws were difficult, but rewarding.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: May 10th, 2017
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: Not sure yet | Textbook: No
+Tags: SKIP CLASS? YOU WON'T PASS. AMAZING LECTURES GROUP PROJECTS
+
+This course is hard and time-consuming. But, it is the most useful one. Prof. Ferdman is very experienced and skillful in Cloud Computing field. The course covers many hot topics. But, it's hard to get reliable materials to read, which makes this course hard. Take it if you want to be more prepared for your future career.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE356
+Date: May 9th, 2017
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Mandatory Would Take Again: Yes Grade: A Textbook: No
+Tags: RESPECTED LOTS OF HOMEWORK AMAZING LECTURES
+
+Professor Ferdman is a wizard when it comes to systems, architecture, and cloud computing (probably many more stuff). We went over so much and professor Ferdman even gave us access to use his own cloud as well as access to free AWS accounts! If you want to build a startup take this course. Must takes at SBU CSE 356, CSE 502, CSE 506. Helpful
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: May 9th, 2016
+Quality: 5.0 | Difficulty: 3.0
+For Credit: Yes Attendance: Not Mandatory Grade: A- Textbook: Yes
+
+Most amazing prof at Stony Brook. his class are must take. Projects are super heavy and requires substantial efforts. But i can confidently say, i owe a great deal to him and learning at his truly prepared me for real world. After his class, interviews will sound like cake
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE391
+Date: Feb 27th, 2016
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Grade: A Textbook: No
+
+391 was cloud computing & easily one of the best classes/profs I've taken. Ferdman's teaching style is amazing and he knows how to keep you interested. He answers emails within minutes, even at 2 am. His assignments are very difficult and open ended. Unlike many classes, the majority of the grade is project. I wish he taught more undergrad courses.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE391
+Date: Jan 21st, 2016
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Mandatory Grade: B+ Textbook: Yes
+
+Ferdman is the smartest professor I've had at Stony Brook. His lectures clear and interesting. He's available basically 24/7 on Piazza.. His assignments are INCREDIBLY difficult and require lots of self learning, but you will learn so much by completing them. I'm certain that without his class I wouldn't have the opportunities I do today.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Nov 18th, 2015
+Quality: 4.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Grade: A Textbook: No
+
+one of the best courses that I have ever taken, If you want to design and implement an operating system from the scratch, then u should totally consider taking it.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Sep 3rd, 2015
+Quality: 5.0 | Difficulty: 1.0
+For Credit: Yes Attendance: Mandatory Grade: A- Textbook: Yes
+
+If you are interested in core systems side then his CSE 506(Grad OS) and CSE 502(Comp Arch) are must takes at SBU. I was lucky enough to take courses offered by him and work in his Lab (COMPAS). You will learn everything by doing the course project which is mandatory and really tough and will thank him for the rest of your life for what you learned
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Aug 21st, 2015
+Quality: 5.0 | Difficulty: 5.0
+For Credit: Yes Attendance: Not Mandatory Grade: A- Textbook: No
+
+Mike Ferdman is the most amazing prof i have seen in my life. He will make you learn and understand Operating System
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: May 22nd, 2015
+Quality: 5.0 | Difficulty: 1.0
+For Credit: Yes Textbook: No
+
+Prof Ferdman is the best prof in Stony Brook, if you are coming to stony brook and you dont plan to take his course, dont come here. His course is tough but you learn more from him than anyone else. He is always available in office hours and this is one of the few courses that values hard work. Trust me , take OS and you will love it.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE502
+Date: Apr 26th, 2014
+Quality: 5.0 | Difficulty: 2.0
+Attendance: Mandatory Textbook: Yes
+
+He is a great professor, and really knows how to teach. He is also very helpful. His course project is very open-ended and challenging, but because of that, I think I've understood concepts in the subject very well. I think he is one of the best professors I've had.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Mar 27th, 2014
+Quality: 5.0 | Difficulty: 1.0
+Attendance: Mandatory Grade: B+ Textbook: Yes
+
+One of the best professor at Stony Brook. If you really want to learn OS, go for his class. He's very helpful and readily available for help. This class has been the best class that I have ever attended.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Jan 31st, 2014
+Quality: 4.5 | Difficulty: 2.0
+Attendance: Mandatory Grade: A- Textbook: Yes
+
+His grading policy is different but relieves you of irritating deadlines. Classes are interesting but learnt a lot more from Project! He does not spoon feed,so be cautious of taking the course if you don't have a proper background/coding proficiency or willingness to work really hard. But he is very helpful. Handsome and fun too ;)
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Jan 17th, 2014
+Quality: 4.0 | Difficulty: 2.0
+Attendance: Mandatory Grade: A- Textbook: No
+
+The best prof at SBU if you want to learn about systems. His comp arch and OS courses are highly recommended.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Dec 26th, 2013
+Quality: 5.0 | Difficulty: 1.0
+Attendance: Mandatory Grade: A Textbook: Yes
+
+He is one of the best Prof I have ever met. His projects are so good that makes the concepts etched in our heads. I highly recommend taking his course. He helps a lot in the form of Office hours, mailing lists etc. He even replies to doubts at 3am in the morning. What else does a student need from a Professor. In short, "The best Prof"
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Dec 13th, 2013
+Quality: 5.0 | Difficulty: 1.0
+Attendance: Mandatory Textbook: Yes
+
+One of the awesome professor. If you really wanted to learn OS and ready to work hard go for it.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Dec 3rd, 2013
+Quality: 4.5 | Difficulty: 2.0
+Attendance: Mandatory Grade: Rather_Not_Say Textbook: No
+
+Ferdman is one of the bestest professor I've seen. His lectures are always interesting to attend, though I agree, he does teach from slides and doesn't use the blackboard much. He more than makes up for it during the office hours and on the online forum. He is super, super helpful. It's a pleasure taking this class with him.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Dec 1st, 2013
+Quality: 3.0 | Difficulty: 3.0
+Attendance: Mandatory Grade: Incomplete Textbook: No
+
+I'm currently enrolled in CSE506. I feel that his teaching isn't easy to follow. He tends to rush through concepts which are difficult, but spend more time on the easier ones. He reviewed undergrad OS theory for weeks, but rushed through multiprocessor systems. Also he teaches from slides and doesn't use the blackboard. You might not like that.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE506
+Date: Nov 15th, 2013
+Quality: 5.0 | Difficulty: 1.0
+Attendance: Mandatory Grade: Not_Sure_Yet Textbook: No
+
+The best professor in Stony Brook. He knows OS and Comp arch in and out and is one of the most friendly profs out there. Though the classes are not mandatory, I always regret whenever I don't attend them. Learning a lot from implementing a real OS. The only gripe is that he doesn't give milestones, which I believe is very important.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE502
+Date: Jun 12th, 2013
+Quality: 5.0 | Difficulty: 4.0
+Textbook: No
+
+His grading policy is not standard - but he makes it clear at the beginning of the semester. I really liked the way the course was taught and the selection of the material was current and relevant. His slides are great and lectures are crisp.
+================================================================================

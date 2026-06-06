@@ -1,8 +1,8 @@
-# The Unofficial Guide — Project 1
+# The Unofficial Guide - Project 1
 
 > **How to use this template:**
 > Complete each section *after* you've built and tested the corresponding part of your system.
-> Do not write placeholder text — if a section isn't done yet, leave it blank and come back.
+> Do not write placeholder text. If a section isn't done yet, leave it blank and come back.
 > Every section below is required for submission. One-liners will not receive full credit.
 
 ---
@@ -11,7 +11,7 @@
 
 This guide is about **CS professor reviews at Stony Brook**. SOLAR tells you who's teaching this semester, but it won't tell you who students actually recommend, whether a professor is an easy grader vs someone who helps you learn, or which courses they tend to teach. A high RMP rating alone doesn't tell the full story either. Students care about different things: tough grading, lecture quality, workload, group projects, office hours, and whether they'd take the class again.
 
-That info is spread across Rate My Professors. You have to open each professor's page, scroll through reviews, and match comments to specific courses like CSE 114 or CSE 316. It's useful for picking classes and planning ahead, but annoying to dig through manually. This project collects those reviews in one place so you can ask questions like "Does Fodor record lectures for CSE 114?", "What tags do students give Kane for CSE 307?", or "What do reviews say about Ramakrishnan's CSE 596 class?" instead of clicking through ten different profiles.
+That info is spread across Rate My Professors. You have to open each professor's page, scroll through reviews, and match comments to specific courses like CSE 114 or CSE 316. It's useful for picking classes and planning ahead, but annoying to dig through manually. This project collects those reviews in one place so you can ask questions instead of clicking through ten different profiles.
 
 ---
 
@@ -41,13 +41,17 @@ That info is spread across Rate My Professors. You have to open each professor's
      - Any preprocessing you did before chunking (e.g., stripping HTML, removing headers)
      - What your final chunk count was across all documents -->
 
-**Chunk size:**
+**Preprocessing:** Rate My Professors blocks scraping, so I manually hit Load More Ratings on each professor page and saved the full page as a PDF in `raw/`. Run `python ingest.py` to turn those into `.txt` files in `documents/`. pdfplumber pulls the text, strips nav/footer junk, and parses each review into a block with course, scores, tags, and the comment.
 
-**Overlap:**
+**Method:** Review-boundary semantic chunking (one chunk per review)
 
-**Why these choices fit your documents:**
+**Chunk size:** One review block (variable length, usually 100–800 characters)
 
-**Final chunk count:**
+**Overlap:** 0. Each review is already a complete unit with course, scores, tags, and comment. No need to duplicate text across chunks.
+
+**Why these choices fit your documents:** Fixed-size chunking can split a long review in half or mix two reviews in one chunk. Splitting at review boundaries keeps course, scores, tags, and comment together so retrieval always returns a complete opinion.
+
+**Final chunk count:** 563 chunks across 10 professor documents (one review per chunk). Breakdown: ali_raza 11, amir_rahmati 22, christopher_kane 30, dimitris_samaras 8, eugene_stark 86, himanshu_gupta 36, iv_ramakrishnan 15, michael_ferdman 33, paul_fodor 312, scott_stoller 10.
 
 ---
 
@@ -59,11 +63,11 @@ That info is spread across Rate My Professors. You have to open each professor's
 
 | # | Source document | Chunk text |
 |---|----------------|------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | `paul_fodor.txt` | REVIEW / Course: 114 / Date: Apr 15th, 2026 / Quality: 5.0, Difficulty: 3.0 / Tags: AMAZING LECTURES INSPIRATIONAL RESPECTED / "Goated prof for 114" |
+| 2 | `christopher_kane.txt` | REVIEW / Course: CSE307 / Date: Mar 2nd, 2026 / Quality: 5.0, Difficulty: 5.0 / Tags: TOUGH GRADER LECTURE HEAVY ACCESSIBLE OUTSIDE CLASS / "Yes. He is the goat. His lectures can be a little long-winded but he is passionate about the subject." |
+| 3 | `scott_stoller.txt` | REVIEW / Course: CSE308 / Date: Dec 21st, 2025 / Quality: 4.0, Difficulty: 3.0 / Tags: GROUP PROJECTS ACCESSIBLE OUTSIDE CLASS / "For CSE 416: Good professor, project was appropriate in difficulty... Professor was very responsive to questions about the project." |
+| 4 | `iv_ramakrishnan.txt` | REVIEW / Course: CSE596 / Date: Jan 14th, 2026 / Quality: 1.0, Difficulty: 5.0 / Tags: TOUGH GRADER / "He is the most direspectful and toxic professor on the stony brook campus who tortures students and berates them for pleasure." |
+| 5 | `ali_raza.txt` | REVIEW / Course: ISE218 / Date: Nov 11th, 2024 / Quality: 5.0, Difficulty: 4.0 / Tags: EXTRA CREDIT CARING RESPECTED / "He always asks the class if everyone understands before moving on. Tough exams, but very clear expectations." |
 
 ---
 
@@ -120,87 +124,149 @@ Relevance explanation:
 
 ---
 
-## Generation Approach
+## Grounded Generation
 
-<!-- Describe how you prompt the LLM to generate grounded answers.
-     Include:
-     - How you format retrieved chunks into the prompt context
-     - Any instructions you give the model about staying within retrieved context
-     - How you handle cases where retrieval returns nothing relevant
-     - Any choices you made (e.g., how you formatted the context, whether you filtered low-relevance chunks). -->
+<!-- Explain how your system enforces grounding. How does it prevent the LLM from answering
+     beyond the retrieved documents?
+     Describe both your system prompt (what instruction you gave the model) and any structural
+     choices (e.g., how you formatted the context, whether you filtered low-relevance chunks).
+     Do not just say "I told it to use the documents." Show the actual instruction or explain
+     the mechanism. -->
+
+**System prompt grounding instruction:**
+
+**How source attribution is surfaced in the response:**
+
+---
+
+## Example Responses
+
+<!-- Provide at least 2 grounded responses (query + response + source attribution)
+     and 1 out-of-scope query showing your system's refusal.
+     All entries must be text, not screenshots. -->
+
+**Grounded response 1**
+
+Query:
+
+Response:
+
+Source attribution:
+
+---
+
+**Grounded response 2**
+
+Query:
+
+Response:
+
+Source attribution:
+
+---
+
+**Out-of-scope query**
+
+Query:
+
+System response (refusal):
+
+---
+
+## Query Interface
+
+<!-- Describe your query interface: what are the input fields, what does the output look like?
+     Then provide a complete sample interaction transcript showing a real exchange. -->
+
+**Input fields:**
+
+**Output format:**
+
+---
+
+**Sample Interaction Transcript**
+
+<!-- Show a complete query → response exchange as it actually appears in your interface.
+     Must be text, not a screenshot. -->
+
+> **User:** 
+
+> **System:** 
 
 ---
 
 ## Evaluation Report
 
-<!-- Run your 5 evaluation questions (from planning.md) through the full system.
-     For each question, record:
-     - The question you asked
-     - The system's response
-     - Whether the response was correct, partially correct, or wrong — and why
-     - What you would change to improve it (if anything) -->
+<!-- Run your 5 test questions from planning.md through your system and record the results.
+     Be honest. A partially accurate or inaccurate result that you explain well is more
+     valuable than a suspiciously perfect result. -->
 
-**Question 1:**
+| # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
+|---|----------|-----------------|------------------------------|-------------------|-------------------|
+| 1 | | | | | |
+| 2 | | | | | |
+| 3 | | | | | |
+| 4 | | | | | |
+| 5 | | | | | |
 
-Response:
-
-Assessment:
-
----
-
-**Question 2:**
-
-Response:
-
-Assessment:
+**Retrieval quality:** Relevant / Partially relevant / Off-target  
+**Response accuracy:** Accurate / Partially accurate / Inaccurate
 
 ---
 
-**Question 3:**
+## Failure Case Analysis
 
-Response:
+<!-- Identify at least one question where retrieval or generation did not work as expected.
+     Write a specific explanation of *why* it failed, tied to a part of the pipeline.
 
-Assessment:
+     "The answer was wrong" is not an explanation.
 
----
+     "The relevant information was split across a chunk boundary, so retrieval returned
+     only half the context, so the model didn't have enough to answer correctly" is an explanation.
 
-**Question 4:**
+     "The embedding model treated the professor's nickname as out-of-vocabulary and returned
+     results from an unrelated review" is an explanation. -->
 
-Response:
+**Question that failed:**
 
-Assessment:
+**What the system returned:**
 
----
+**Root cause (tied to a specific pipeline stage):**
 
-**Question 5:**
-
-Response:
-
-Assessment:
-
----
-
-## Reflection
-
-<!-- Answer these three questions honestly. Short paragraphs are fine. -->
-
-**What worked well in your pipeline?**
-
-**What didn't work, and what would you change?**
-
-**How did you use AI tools during this project? Give one specific example where an AI suggestion was wrong and how you caught or fixed it.**
+**What you would change to fix it:**
 
 ---
 
-## AI Tool Usage Log
+## Spec Reflection
 
-<!-- For each milestone, note which AI tool you used, what you asked it to do,
-     and whether the output was useful as-is or needed modification.
-     "I used ChatGPT" is not enough — describe a specific interaction. -->
+<!-- Reflect on how planning.md shaped your implementation.
+     Answer both questions with at least 2-3 sentences each. -->
 
-| Milestone | Tool | What you asked | Outcome |
-|-----------|------|----------------|---------|
-| Planning | | | |
-| Ingestion & chunking | | | |
-| Embedding & retrieval | | | |
-| Generation & interface | | | |
+**One way the spec helped you during implementation:**
+
+**One way your implementation diverged from the spec, and why:**
+
+---
+
+## AI Usage
+
+<!-- Describe at least 2 specific instances where you used an AI tool during this project.
+     For each: what did you give the AI as input, what did it produce, and what did you
+     change, override, or direct differently?
+
+     "I used Claude to help me code" is not sufficient.
+     "I gave Claude my Chunking Strategy section from planning.md and asked it to implement
+     chunk_text(). It returned a function using a fixed character split. I overrode the
+     chunk size from 500 to 200 because my documents are short reviews, not long guides." -->
+
+**Instance 1**
+
+- *What I gave the AI:*
+- *What it produced:*
+- *What I changed or overrode:*
+
+**Instance 2**
+
+- *What I gave the AI:*
+- *What it produced:*
+- *What I changed or overrode:*

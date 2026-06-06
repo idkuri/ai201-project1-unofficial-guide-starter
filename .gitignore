@@ -16,5 +16,8 @@ env/
 chroma_db/
 chroma/
 
+# Regenerable pdfplumber output
+raw_text/
+
 # macOS
 .DS_Store

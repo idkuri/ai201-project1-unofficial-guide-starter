@@ -1,0 +1,107 @@
+# Professor: Scott Stoller
+# Source: Rate My Professors — Stony Brook University (SUNY)
+# Department: Computer Science
+
+================================================================================
+REVIEW
+Course: CSE308
+Date: Dec 21st, 2025
+Quality: 4.0 | Difficulty: 3.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A | Textbook: N/A
+Tags: GROUP PROJECTS ACCESSIBLE OUTSIDE CLASS
+
+For CSE 416: Good professor, project was appropriate in difficulty and was able to be implemented in the timeframe given. It would've been a bit easier if he made us start the project a little earlier and given us more time in between parts, but overall it was doable to implement. Professor was very responsive to questions about the project.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE308
+Date: Jan 6th, 2019
+Quality: 3.0 | Difficulty: 3.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: No Grade: B | Textbook: No
+Tags: TOUGH GRADER LOTS OF HOMEWORK
+
+First half of the class dealt with random drawings of UML diagrams. After that was just presentations which made lectures pointless going to. He and TAs are sometimes anal on grading. Overall, just find good teammates and you should be fine. He allows you to work with whatever tools and technologies you want.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE535
+Date: May 9th, 2018
+Quality: 5.0 | Difficulty: 3.0
+For Credit: Yes Would Take Again: Yes Grade: A Textbook: Yes
+
+Prof Scott is one of the best prof if you want to learn distributed systems. Course content is superb. One of my favorite course in Stony Brook. I am really thankful to Professor for this course.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE535
+Date: Jan 2nd, 2018
+Quality: 5.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: A | Textbook: No
+Tags: GIVES GOOD FEEDBACK ACCESSIBLE OUTSIDE CLASS SO MANY PAPERS
+
+Prof. Stoller is very friendly and is always approachable. Gives extra credit for hard work. Makes sure you learn distributed systems by reading research papers. U learn a lot through the course project and by reading papers. Course content is very good. But u need to concentrate in class to understand as he teaches very fast.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE535
+Date: Nov 15th, 2016
+Quality: 4.0 | Difficulty: 4.0
+For Credit: Yes Attendance: Not Mandatory Would Take Again: Yes Grade: Not sure yet | Textbook: No
+Tags: PARTICIPATION MATTERS SO MANY PAPERS LECTURE HEAVY
+
+Grad level asynchronous systems. Too many topics but less weightage to exams and more to project done in group of two. Hard to catch up with the class if you blink for more than a second.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE308
+Date: Jul 17th, 2015
+Quality: 4.0 | Difficulty: 2.0
+For Credit: Yes Grade: A Textbook: Yes
+
+He gives good feedback. As long as you follow with the professor, you should be fine. I made it, so you can. Despite there might be problem in your group. Professor Scott is the most friendly professor I ever met in SBU as a ug student.
+================================================================================
+
+================================================================================
+REVIEW
+Course: 308
+Date: Apr 21st, 2015
+Quality: 1.5 | Difficulty: 4.0
+For Credit: Yes Textbook: No
+
+Brilliant man, but bad at interfacing with students. Whole course based on group project using web dev and a database, but lectures are no help - they are all on UML. One (easy) exam. Every HW is cumulative and related to the project. HW prompts are EXTREMELY verbose and at times hard to follow. Asking for clarification annoys him. Lenient grader.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE308
+Date: Sep 18th, 2014
+Quality: 5.0 | Difficulty: 1.0
+For Credit: Yes Textbook: Yes
+
+I took Professor Stoller a few years ago as an undergrad. I learned a lot about the software design process and implementation. The course is centered around a group-based software programming project and there is a great deal of emphasis placed on UML and agile design. Familiarize yourself with UML and SQL.
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE302
+Date: Dec 2nd, 2009
+Quality: 1.5 | Difficulty: 5.0
+Textbook: No
+
+For a one credit class, a lot of work. We have to write a term paper and do a class presentation. Also attendance is mandatory. This class should be so much more easier for a one credit class. The term paper has to be 1600 words, and the presentation has to be ten minutes. Would not reccomend taking this class for an "easy A"
+================================================================================
+
+================================================================================
+REVIEW
+Course: CSE308
+Date: May 27th, 2009
+Quality: 3.5 | Difficulty: 4.0
+Textbook: Yes
+
+Very good teacher... when he teaches. Should have spent more time on teaching us UML & testing than spending all class doing exercises. Gives help when asked. Entire class based around project.
+================================================================================
