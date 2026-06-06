@@ -9,27 +9,38 @@
 
 ## Domain
 
-<!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
+**Rate My Professor and course planning at Stony Brook University (CS department)**
+
+I'm building a guide for picking CS professors and planning courses ahead of time. SOLAR tells you who's teaching this semester, but it won't tell you who students actually recommend, if someone is an easy grader or actually helps you learn, or which courses they usually teach. That info lives on Rate My Professors, and you have to click through each professor, scroll tons of reviews, and figure out which comments match courses like CSE 114 or CSE 316 on your own.
+
+A high rating doesn't say much by itself. Students care about grading, lecture quality, workload, group projects, office hours, and whether they'd take the class again. Having all that in one place lets you plan semesters ahead instead of scrambling at registration and ending up in a bad section.
+
+**Questions this system will answer:**
+
+- Does a specific professor record lectures or offer flexible office hours for a course?
+- What Rate My Professor tags and ratings do students give a professor for a particular class?
+- Which courses does a professor usually teach, based on review history?
+- What do students say about a professor's grading difficulty, workload, or teaching style?
+- How does a professor prepare students for exams or handle course logistics (group projects, attendance, etc.)?
 
 ---
 
 ## Documents
 
-<!-- List your specific sources: URLs, subreddit names, forum threads, or file descriptions.
-     Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
-
 | # | Source | Description | URL or location |
 |---|--------|-------------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| 1 | Scott Stoller | Full Rate My Professor review history (CSE308, CSE535, distributed systems/project courses) | `raw/Scott Stoller at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 2 | Christopher Kane | Full Rate My Professor review history (CSE215, CSE307, CSE316, software design and theory) | `raw/Christopher Kane at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 3 | Ali Raza | Full Rate My Professor review history (ISE218, CSE312, intro and systems courses) | `raw/Ali Raza at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 4 | Amir Rahmati | Full Rate My Professor review history (CSE524, security and grad-level CS courses) | `raw/Amir Rahmati at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 5 | Dimitris Samaras | Full Rate My Professor review history (CSE327 computer vision, grad-level courses) | `raw/Dimitris Samaras at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 6 | Eugene Stark | Full Rate My Professor review history (CSE306, CSE320, systems and architecture courses) | `raw/Eugene Stark at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 7 | Himanshu Gupta | Full Rate My Professor review history (networking and upper-level CS courses) | `raw/Himanshu Gupta at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 8 | I.V. Ramakrishnan | Full Rate My Professor review history (CSE596, grad courses; mixed grading and teaching reviews) | `raw/I.V. Ramakrishnan at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 9 | Michael Ferdman | Full Rate My Professor review history (CSE356, CSE502, computer architecture and systems) | `raw/Michael Ferdman at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+| 10 | Paul Fodor | Full Rate My Professor review history (CSE114, CSE214, CSE316; largest review count in corpus) | `raw/Paul Fodor at Stony Brook University (SUNY) _ Rate My Professors.pdf` |
+
+**Coverage:** Intro programming (Fodor), software design/theory (Kane), systems/architecture (Stark, Ferdman), distributed systems (Stoller), security/grad courses (Rahmati), computer vision (Samaras), networking (Gupta), and a mix of strongly positive and strongly negative grad-level reviews (Ramakrishnan). All sources are manually saved Rate My Professor PDFs because the site blocks automated scraping.
 
 ---
 
@@ -66,18 +77,13 @@
 
 ## Evaluation Plan
 
-<!-- List your 5 test questions with their expected correct answers.
-     Questions should be specific enough that you can judge whether the system's response
-     is right or wrong. "What are good dining halls?" is too vague.
-     "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
-
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | Does Paul Fodor record his lectures for CSE 114? | Yes. Multiple reviews explicitly state he records lectures (e.g., "he records his lectures" in Dec 2025 and Nov 2024 CSE114 reviews). |
+| 2 | What Rate My Professor tags do students assign to Christopher Kane for CSE 307? | TOUGH GRADER, LECTURE HEAVY, ACCESSIBLE OUTSIDE CLASS. The Mar 2026 review also gives Quality 5.0 and Difficulty 5.0. |
+| 3 | What courses does Scott Stoller teach according to student reviews? | CSE308, CSE535, and CSE302. Reviews describe distributed systems content, research papers, and group/project-based coursework. |
+| 4 | What do students say about I.V. Ramakrishnan's CSE 596 class? | Overwhelmingly negative: Quality 1.0, Difficulty 5.0, tagged TOUGH GRADER. Reviews describe him as disrespectful, toxic, and berating students. At least one review says "NEVER TAKE HIS COURSE." |
+| 5 | How does Ali Raza prepare students for exams in ISE 218? | He gives topics or questions prior to exams and quizzes. Reviews note tough exams but clear expectations, and that he checks whether the class understands before moving on. |
 
 ---
 
