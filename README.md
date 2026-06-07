@@ -231,11 +231,17 @@ The demo shows:
 
 **Question that failed:** Does Paul Fodor record his lectures for CSE 114?
 
-**What the system returned (before fix):** "I don't have enough information in the loaded documents to answer that." — even though `paul_fodor.txt` contains reviews stating "he records his lectures" (Dec 2025, Dec 2024).
+**Expected answer:** Yes — multiple reviews say he records lectures (e.g. "he records his lectures" in Dec 2025 and Nov 2024 CSE114 reviews).
 
-**Root cause (tied to a specific pipeline stage):** **Embedding + retrieval.** The vector store embedded the entire formatted chunk (80-character delimiters, professor header, Quality/Tags metadata, and full review body). With 312 Paul Fodor reviews, generic CSE114 reviews ("helpful professor, clear lectures") scored closer to the query than the short "records his lectures" sentence buried in a longer review. At top-k = 5, no recording review reached the LLM context.
+**What the system returned (before fix):** "I don't have enough information in the loaded documents to answer that." The reviews were in the corpus. Retrieval even showed Paul Fodor (CSE114) as a source — but the wrong reviews, ones that never mention recording.
 
-**What you would change to fix it:** Embed a compact representation instead of the full chunk — professor, course, date, tags, and (for recording mentions) only the sentence containing "record". Re-embed ChromaDB after changing `build_embedding_text()` in `ingest.py`. Also scope retrieval to the named professor/course when detected in the query.
+**What I noticed:** The test case wasn't wrong. The data was right. The system was pulling generic CSE114 reviews ("helpful professor, clear lectures") instead of the ones that literally say "he records his lectures."
+
+**What I told the AI:** This isn't a k problem — don't just grab more chunks. Something is off with how relevance is mapped. It's not really about `record` vs `recording` as synonyms. The embedding just wasn't surfacing the right review.
+
+**Root cause (pipeline stage):** **Embedding.** We were vectorizing the whole formatted chunk — delimiters, headers, tags, metadata, full comment. That drowned out short facts like "he records his lectures." With 312 Fodor reviews, boring generic CSE114 reviews ranked above the recording reviews at k = 5.
+
+**Fix (kept k = 5):** `build_embedding_text()` in `ingest.py` now embeds a shorter string: professor, course, date, tags, and for recording reviews only the sentence that mentions record/records/recorded. Full chunk text still goes to Chroma for display. Had to delete `chroma_db` and re-embed. After that, Dec 2025 and Dec 2022 recording reviews rank #1 and #2 and the system answers yes.
 
 ---
 
@@ -297,6 +303,46 @@ The spec assumed pure semantic search over full review chunks would be sufficien
 
 **Instance 2**
 
-- *What I gave the AI:* Retrieval test output showing Paul Fodor's "records lectures" review ranked ~82nd at top-k = 5, plus the eval question from `planning.md`.
-- *What it produced:* Diagnosis that full-chunk embeddings dilute short factual sentences; suggested compact embed text and metadata-scoped retrieval.
-- *What I changed or overrode:* I rejected increasing the retrieval pool to k = 100 (per my preference) and instead embedded record-specific sentences and added professor/course filters in `retriever.py`. I also added programmatic full-chunk citations in the Gradio UI rather than letting the LLM cite sources.
+- *What I gave the AI:* The Paul Fodor eval question failed even though the Dec 2025 review says "he records his lectures." I pushed back when it tried to fix it by increasing k — I said that's not the issue, relevance just isn't mapped properly between the query and the right chunk.
+- *What it produced:* Found that embedding the full chunk was the problem, not weak `record` → `recording` synonyms. Suggested compact embed text (embed the recording sentence only) instead of a bigger retrieval pool.
+- *What I changed or overrode:* Kept k = 5. Used `build_embedding_text()` + re-embed. Also added professor/course filters later when Kane and Stoller queries failed for similar reasons.
+
+---
+
+## Extra Credit: Hybrid Search
+
+**Feature:** Optional hybrid retrieval (`semantic` + BM25 merged with Reciprocal Rank Fusion). Toggle in the Gradio **Retrieval mode** dropdown, or set `RETRIEVAL_MODE=hybrid` in `.env`.
+
+**How it works:** Each query runs MiniLM cosine search and BM25 keyword search over the same compact embed text (`build_embedding_text`). Top-20 from each method are merged with RRF (k = 60), then top-5 go to the LLM. Same professor/course metadata filters apply to both.
+
+**Compare yourself:** `python retriever.py --compare`
+
+| Eval question | Semantic top-1 on-target? | Hybrid top-1 on-target? | Winner |
+|---------------|---------------------------|-------------------------|--------|
+| Fodor records lectures? | Yes (Dec 2025, "records his lectures") | No (Apr 2026 review, no recording mention) | **Semantic** |
+| Kane CSE307 tags? | Yes (Mar 2026, TOUGH GRADER…) | Yes (same review) | Tie |
+| Stoller courses? | Partial (CSE308 only in #1) | Partial (same) | Tie |
+| Ramakrishnan CSE596? | Yes (CSE596 review) | Yes (same) | Tie |
+| Ali Raza ISE218 exams? | Yes ("topics of questions prior") | Yes (same) | Tie |
+
+**Takeaway:** Hybrid helps when exact keywords matter (tags, "record", course codes) — but after the compact-embedding fix, semantic-only already ranked the right reviews for most eval questions. On the Fodor query, BM25 overweighted the token `114` from the question and pushed a newer review without "record" to #1, so **semantic-only actually wins** there. Hybrid is still useful as a fallback for tag-heavy queries and is available in the UI for side-by-side testing.
+
+---
+
+## Extra Credit: Conversational Memory
+
+**Feature:** Multi-turn chat in the Gradio **Chat** tab. Follow-up questions can use pronouns or omit the professor/course when the prior turn already established them.
+
+**How it works:**
+
+1. **Retrieval expansion** — `resolve_query_for_retrieval()` in `generator.py` scans the last few chat turns for the most recent professor name and course code. If the new question uses follow-up language (e.g. "he", "that class") or omits those entities, the retrieval query is expanded (e.g. `"Does he record lectures?"` → `"Paul Fodor: Does he record lectures? (course CSE114)"`) so metadata filters and embeddings target the right reviews.
+2. **Generation context** — Recent user/assistant turns are prepended to the LLM prompt so the model can resolve pronouns when answering, while still grounding facts only in retrieved reviews.
+
+**Demo interaction (Chat tab):**
+
+| Turn | User | System behavior |
+|------|------|-----------------|
+| 1 | What do students say about Paul Fodor for CSE 114? | Retrieves Fodor + CSE114 reviews; answers from those chunks |
+| 2 | Does he record his lectures? | Expands to Paul Fodor / CSE114 for retrieval; answer cites recording reviews — not a random "he" from another professor |
+
+The single-turn **Ask** tab is unchanged for one-off questions with explicit professor/course names.

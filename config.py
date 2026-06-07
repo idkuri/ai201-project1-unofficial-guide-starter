@@ -16,6 +16,9 @@ CHROMA_PATH = "./chroma_db"
 
 # --- Retrieval ---
 N_RESULTS = 5
+RETRIEVAL_MODE = os.getenv("RETRIEVAL_MODE", "semantic")  # "semantic" or "hybrid"
+HYBRID_CANDIDATE_POOL = 20
+HYBRID_RRF_K = 60
 
 # --- Documents ---
 RAW_PATH = "./raw"           # raw RMP PDFs and other unprocessed sources

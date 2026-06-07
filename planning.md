@@ -71,6 +71,28 @@ There is no magic formula for 5. It is a practical default for short, self-conta
 
 **Why semantic search works here:** Embeddings capture meaning, not just exact words. A query like "easy intro programming professor" can match reviews tagged "AMAZING LECTURES" with difficulty 2.0 for CSE 114 even when the review never says "easy" or "intro." That's why semantic search fits this corpus better than keyword matching alone.
 
+**Post-Milestone fixes (still semantic, k = 5):** Full-chunk embeddings diluted short facts like "records his lectures," so `build_embedding_text()` now embeds compact text (tags, record sentences, or first 300 chars of body). Professor/course names in a query trigger metadata filters in Chroma. These fixes are separate from the hybrid stretch feature below.
+
+---
+
+## Stretch Feature: Hybrid Search (Extra Credit)
+
+**Goal:** Combine semantic search (MiniLM + Chroma cosine) with keyword search (BM25) and compare top-k results to semantic-only on the same 5 evaluation questions.
+
+**Why this stretch:** Pure semantic search missed exact phrases ("records his lectures", RMP tag strings) until we changed embedding text. BM25 should catch exact token matches; semantic search should catch paraphrases. Hybrid merges both with Reciprocal Rank Fusion (RRF) without increasing k.
+
+**Plan:**
+
+| Piece | Approach |
+|-------|----------|
+| Keyword index | `rank_bm25` over the same compact text used for embeddings (`build_embedding_text`) |
+| Merge | RRF with k = 60 over top-20 candidates from each retriever |
+| Filter | Same professor/course `where` filters as semantic-only |
+| Compare | Run `python retriever.py --compare` on all 5 eval queries; record which mode ranks the expected review higher |
+| UI | Gradio dropdown: Semantic only vs Hybrid |
+
+**Success criteria:** Hybrid ranks the expected review at #1 (or ties) on queries with exact keywords (Fodor recording, Kane tags). Semantic-only may still win on broad sentiment questions (Ramakrishnan negativity) where meaning matters more than exact words.
+
 ---
 
 ## Evaluation Plan
@@ -124,7 +146,7 @@ pdfplumber   1 review/chunk  MiniLM            top-5       Groq LLM     Gradio
 | Document Ingestion | pdfplumber, custom Rate My Professor parser in `ingest.py` |
 | Chunking | Review-boundary semantic chunking (one review per chunk) |
 | Embedding + Vector Store | sentence-transformers (`all-MiniLM-L6-v2`), ChromaDB |
-| Retrieval | ChromaDB cosine search, top-k = 5 |
+| Retrieval | ChromaDB cosine search + optional BM25 hybrid (RRF), top-k = 5 |
 | Generation | Groq API, `llama-3.3-70b-versatile`, grounded system prompt |
 | Interface | Gradio `ChatInterface` in `app.py` |
 
